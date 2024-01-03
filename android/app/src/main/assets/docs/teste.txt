@@ -1,0 +1,1 @@
+arquivo.txt dentro da pasta asssets do android!
