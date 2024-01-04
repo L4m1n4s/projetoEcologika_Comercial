@@ -1,3 +1,27 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "Node16",
+    "module": "NodeNext",
+    "rootDirs": ["src"],
+    "baseUrl": ".",
+    "types": [
+      "jest",
+    ],
+    "paths": {
+      "@ecologika/*": ["src/*"],
+    }, 
+    "allowSyntheticDefaultImports": true, 
+    "esModuleInterop": true, 
+    "skipLibCheck": true, 
+    "resolveJsonModule": true, 
+    "typeRoots": [
+      "./typescript", "node_modules/@types"
+    ]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/*", "src/**/*.json, src/**/*.docx"],
 }
