@@ -22,6 +22,11 @@ export function ListaColeta({ navigation }) {
     setModalVisible(false);
   };
 
+  const irParaListaResiduos = () => {
+    //showLoadingModal()
+    navigation.navigate('Residuos')
+  };
+
   useEffect(() => {
     // Use a função filter para encontrar dados correspondentes aos IDs
     const dadosFiltrados = coletas.filter((item) => IdColetasSelecionadas.includes(item.value));
@@ -54,46 +59,44 @@ export function ListaColeta({ navigation }) {
 
       <ScrollView style={styles.scrowView} overScrollMode='never' showsVerticalScrollIndicator={false}>
         {dadosFiltrados.map((coleta, index) => (
-        <View key={index} style={styles.gridHolder}>
+          <View key={index} style={styles.gridHolder}>
 
-          <View style={styles.grid}>
-            <Text style={styles.textGrid}>{`${coleta.label}`}</Text>
+            <View style={styles.grid}>
+              <Text style={styles.textGrid}>{`${coleta.label}`}</Text>
+            </View>
+
+            <View style={styles.grid}>
+              <Text style={styles.textGrid}>{`${coleta.unidadeMedida}`}</Text>
+            </View>
+
+            <TouchableOpacity style={styles.grid} onPress={() => abrirModal(index)}>
+              <Text style={styles.textGrid}>{`${coleta.valorFinal}`}</Text>
+            </TouchableOpacity>
+
+
+            {/* Modal condicional */}
+            {modalIndex === index && (
+              <Modal
+                transparent={false}
+                animationType='fade'
+                visible={modalVisible}
+                onRequestClose={fecharModal}
+              >
+                <ModalColetaValores handleClose={fecharModal} dadosFiltrados={dadosFiltrados} coleta={coleta} />
+              </Modal>
+            )}
+
+
           </View>
 
-          <View style={styles.grid}>
-            <Text style={styles.textGrid}>{`${coleta.unidadeMedida}`}</Text>
-          </View>
-
-          <TouchableOpacity style={styles.grid} onPress={() => abrirModal(index)}>
-            <Text style={styles.textGrid}>{`${coleta.valorFinal}`}</Text>
-          </TouchableOpacity>
 
 
-          {/* Modal condicional */}
-          {modalIndex === index && (
-            <Modal
-              transparent={false}
-              animationType='fade'
-              visible={modalVisible}
-              onRequestClose={fecharModal}
-            >
-              <ModalColetaValores handleClose={fecharModal} dadosFiltrados={dadosFiltrados} coleta={coleta} />
-            </Modal>
-          )}
+        ))}</ScrollView>
 
 
-        </View>
-
-
-
-      ))}</ScrollView>
-
-
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Residuos')}>
+      <TouchableOpacity style={styles.button} onPress={() => irParaListaResiduos()}>
         <Text style={styles.buttonText}>Coleta de Residuos</Text>
       </TouchableOpacity>
-
-
 
 
     </View>
@@ -115,14 +118,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
-    marginBottom:25,
-    marginTop:25,
+    marginBottom: 25,
+    marginTop: 25,
   },
   buttonText: {
     color: "#FFF",
   },
   textGrid: {
-    color:'#000',
+    color: '#000',
     height: 50,
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -138,11 +141,11 @@ const styles = StyleSheet.create({
   gridHolderTop: {
     flexDirection: 'row',
     backgroundColor: '#F0FA1E',
-    alignSelf:'center',
+    alignSelf: 'center',
   },
-  scrowView:{
-    borderBottomWidth:5,
-    width:'100%'
+  scrowView: {
+    borderBottomWidth: 5,
+    width: '100%'
   },
 
 

@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { IdResiduosSelecionados, SetResiduosFinal, residuos, setResiduosSelecionadas } from './holder';
-import { ModalResiduoValores } from '../modal/modalModels';
+import { ModalLoading, ModalResiduoValores } from '../modal/modalModels';
 
 export function ListaResiduos({ navigation }) {
+
+  //Variavel para decidir a visibilidade da modal de carregamento
+  const [isLoading, setIsLoading] = useState(true);
 
   //Salva os dados com os IDs que batem
   const [dadosFiltrados, setDadosFiltrados] = useState([]);
@@ -21,6 +24,16 @@ export function ListaResiduos({ navigation }) {
     setModalIndex(null);
     setModalVisible(false);
   };
+
+  useEffect(() => {
+    // Simula um carregamento por 2 segundos
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    // Limpa o timeout quando o componente é desmontado ou quando o carregamento é concluído
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   function salvarResiduos() {
     navigation.navigate('Dados Contrato');
@@ -102,8 +115,14 @@ export function ListaResiduos({ navigation }) {
         <Text style={styles.buttonText}>Adicionar dados do contrato</Text>
       </TouchableOpacity>
 
-
-
+      <Modal
+        visible={isLoading}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+            <Text style={{ marginTop: 10, color:"#000", fontSize:30 }}>Carregando lista de residuos...</Text>
+          </View>
+        </View>
+      </Modal>
 
     </View>
 
@@ -112,9 +131,9 @@ export function ListaResiduos({ navigation }) {
 
 const styles = StyleSheet.create({
   scrollview: {
-    marginBottom:10,
-    width:"100%",
-    height:'auto'
+    marginBottom: 10,
+    width: "100%",
+    height: 'auto'
   },
   container: {
     flex: 1,
@@ -129,16 +148,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
-    marginBottom:25,
-    marginTop:25,
+    marginBottom: 25,
+    marginTop: 25,
   },
   buttonText: {
     color: "#FFF",
     textAlign: 'center',
   },
   textGrid: {
-    color:'#000',    
-    fontSize:12,
+    color: '#000',
+    fontSize: 12,
     height: 60,
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -166,17 +185,17 @@ const styles = StyleSheet.create({
   gridHolder: {
     flexDirection: 'row',
     alignSelf: 'center',
-    paddingHorizontal:15,
+    paddingHorizontal: 15,
   },
   gridHolderTop: {
     flexDirection: 'row',
     alignSelf: 'center',
     backgroundColor: '#F0FA1E',
-    marginHorizontal:15,
+    marginHorizontal: 15,
   },
-  scrollview:{
-    width:'100%',
-    borderBottomWidth:5,
+  scrollview: {
+    width: '100%',
+    borderBottomWidth: 5,
   },
 
 

@@ -168,6 +168,15 @@ export function ModalResiduoValores({ handleClose, residuo }) {
     )
 }
 
+export function ModalLoading(){
+    return(
+        <View style={styles.loading}>
+            <Image source={require('../images/loading.gif')} style={styles.icon}/>
+            <Text>Esta a carregar...</Text>
+        </View>
+    )
+}
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "rgba(24,24,24, 0.6)",
@@ -279,6 +288,14 @@ const styles = StyleSheet.create({
         width: "90%",
         height: "8%",
         color: '#000',
+    },
+    loading:{
+        width:"100%",
+        height:"100%",
+    },
+    loadingText:{
+        textAlign:'center',
+        textAlignVertical:'center',
     },
 
 })
