@@ -171,7 +171,6 @@ export function ModalResiduoValores({ handleClose, residuo }) {
 export function ModalLoading(){
     return(
         <View style={styles.loading}>
-            <Image source={require('../images/loading.gif')} style={styles.icon}/>
             <Text>Esta a carregar...</Text>
         </View>
     )
