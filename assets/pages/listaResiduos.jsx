@@ -30,7 +30,7 @@ export function ListaResiduos({ navigation }) {
   useEffect(() => {
     // Use a função filter para encontrar dados correspondentes aos IDs
     const dadosFiltrados = residuos.filter((item) => IdResiduosSelecionados.includes(item.value));
-    //setDadosFiltrados(dadosFiltrados);
+    setDadosFiltrados(dadosFiltrados);
   }, []);
 
   return (
@@ -79,7 +79,7 @@ export function ListaResiduos({ navigation }) {
               </View>
 
               <TouchableOpacity style={styles.gridValor} onPress={() => abrirModal(index)}>
-                <Text style={styles.textGrid}>R${`${residuo.valor}`}</Text>
+                <Text style={styles.textGrid}>{`${residuo.valor}`}</Text>
               </TouchableOpacity>
 
 

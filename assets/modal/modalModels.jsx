@@ -1,12 +1,19 @@
 import { View, StyleSheet, Text, TouchableOpacity, TextInput } from "react-native";
-import { centroSelecionado, nomeCentroSelecionado, tecnologiaTratamentoResiduos, unidadeMedida } from "../pages/holder";
+import { centroSelecionado, nomeCentroSelecionado, residuos, tecnologiaTratamentoResiduos, unidadeMedida } from "../pages/holder";
 import { useState } from "react";
 import DropDownPicker from 'react-native-dropdown-picker'
 
 export function ModalColetaValores({ handleClose, coleta }) {
 
+    let [inputValue, setInputValue] = useState("0");
+    let [textInputCustom, setTextInputCustom] = useState("");
+    
     function setValor() {
         handleClose();
+        if(textInputCustom != "")
+            coleta.valorFinal = "R$" + textInputCustom;
+        else
+            coleta.valorFinal = inputValue;
     }
 
     return (
@@ -15,40 +22,41 @@ export function ModalColetaValores({ handleClose, coleta }) {
                 <Text style={styles.title}>{coleta.label}</Text>
 
                 <View style={styles.valousArea}>
-                    <View style={styles.area}>
+                    <TouchableOpacity style={styles.areaColeta} activeOpacity={0.3} onPress={() => setInputValue(coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][0])}>
                         <Text style={styles.numberTextColetas}>Custo de Transporte</Text>
                         <Text style={styles.numberColetas}>{coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][0]}</Text>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.area}>
+                    <TouchableOpacity style={styles.areaColeta} activeOpacity={0.3} onPress={() => setInputValue(coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][1])}>
                         <Text style={styles.numberTextColetas}>Valor Ideal</Text>
                         <Text style={styles.numberColetas}>{coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][1]}</Text>
-                    </View>
+                    </TouchableOpacity>
 
                 </View>
 
                 <View style={styles.valousArea}>
-                    <View style={styles.area}>
+                    <TouchableOpacity style={styles.areaColeta} activeOpacity={0.3} onPress={() => setInputValue(coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][3])}>
                         <Text style={styles.numberTextColetas}>Valor - Média</Text>
                         <Text style={styles.numberColetas}>{coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][3]}</Text>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.area}>
+                    <TouchableOpacity style={styles.areaColeta} activeOpacity={0.3} onPress={() => setInputValue(coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][2])}>
                         <Text style={styles.numberTextColetas}>Valor - 0,6535</Text>
                         <Text style={styles.numberColetas}>{coleta.centrosDeCusto[centroSelecionado][nomeCentroSelecionado][2]}</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 <TextInput
                     style={styles.textInput}
-                    placeholder="Valor"
-                    onChangeText={newText => coleta.valorFinal = newText}
+                    placeholder={inputValue}
+                    onChangeText={newText => coleta.valorFinal = setTextInputCustom(newText)}
                     textAlign="center"
                     placeholderTextColor="#000"
-                    borderWidth={1}
+                    borderWidth={3}
                     borderRadius={10}
                     width={'80%'}
-                    marginTop={20}
+                    height={"10%"}
+                    marginTop={"10%"}
                     keyboardType="numeric"
                 />
 
@@ -117,6 +125,7 @@ export function ModalResiduoValores({ handleClose, residuo }) {
                             value={valueUniMedida}
                             items={itemsUniMedida}
                             maxHeight={250}
+                            placeholder="Selecionar unidade de medida"
                             textStyle={styles.dropdownText}
                             placeholderStyle={styles.placeholder}
                             setOpen={setOpenUniMedida}
@@ -138,13 +147,13 @@ export function ModalResiduoValores({ handleClose, residuo }) {
 
                 <TextInput
                     style={styles.textInput}
-                    placeholder="Valor"
+                    placeholder={"0"}
                     placeholderTextColor="#000"
                     onChangeText={newText => residuo.valor = newText}
                     textAlign="center"
-                    borderWidth={1}
+                    borderWidth={3}
                     borderRadius={10}
-                    marginTop={20}
+                    height={"10%"}
                     keyboardType="numeric"
                 />
 
@@ -169,23 +178,24 @@ const styles = StyleSheet.create({
     content: {
         backgroundColor: "#FFF",
         width: "85%",
-        height:'auto',
-        paddingTop: 25,
-        paddingBottom: 25,
+        height: 'auto',
+        paddingTop: "10%",
         alignItems: "center",
         borderRadius: 8,
+        borderWidth: 5,
+        gap:3,
     },
     title: {
         fontSize: 24,
-        paddingHorizontal:5,
+        paddingHorizontal: 5,
         fontWeight: "bold",
         color: "#000",
-        marginBottom: 10,
         borderWidth: 3,
         width: '90%',
-        height:'15%',
+        height: '15%',
+        marginBottom:"10%",
         textAlign: "center",
-        textAlignVertical:'center',
+        textAlignVertical: 'center',
     },
     text: {
         color: "#FFF",
@@ -194,79 +204,81 @@ const styles = StyleSheet.create({
     valousArea: {
         flexDirection: "row",
         width: "90%",
-        height: 75,
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: 15,
+        height: '15%',
+        //alignItems: "center",
+        //justifyContent: "space-between",
+        //marginBottom: 15,
     },
     numberColetas: {
         fontSize: 25,
-        height:30,
+        height: "110%",
         fontWeight: "bold",
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: 1,
-        textAlignVertical:"center",
+        textAlignVertical: "center",
         textAlign: "center",
-        color:'#000',
+        color: '#000',
     },
     numberTextColetas: {
         fontSize: 17,
-        height:30,
+        height: "110%",
         fontWeight: "bold",
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: 1,
         textAlign: "center",
-        textAlignVertical:"center",
+        textAlignVertical: "center",
         backgroundColor: "#F0FA1E",
-        color:'#000',
+        color: '#000',
     },
     numberResiduos: {
         fontSize: 25,
         fontWeight: "bold",
         borderWidth: 3,
-        borderRadius:0,
-        textAlignVertical:"center",
+        borderRadius: 0,
+        textAlignVertical: "center",
         width: '100%',
         textAlign: "center",
-        color:'#000',
+        color: '#000',
     },
     numberTextResiduos: {
         fontSize: 20,
         fontWeight: "bold",
-        borderTopWidth:3,
-        borderRightWidth:3,
-        borderLeftWidth:3,
+        borderTopWidth: 3,
+        borderRightWidth: 3,
+        borderLeftWidth: 3,
         textAlign: "center",
         backgroundColor: "#F0FA1E",
-        color:'#000',
+        color: '#000',
     },
-    dropdownText:{
-        fontSize:17,
+    dropdownText: {
+        fontSize: 17,
     },
     button: {
         backgroundColor: "black",
         width: "60%",
-        height: 40,
+        height: "10%",
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5,
-        marginTop: 35,
+        borderRadius: 10,
+        marginTop: "10%",
     },
-    buttonText:{
-        fontSize:18,
-        color:"#FFF"
+    buttonText: {
+        fontSize: 18,
+        color: "#FFF"
     },
-    area: {
+    areaColeta: {
         width: '50%',
-        height:30,
+        height: 30,
     },
     areaResiduos: {
         width: '100%',
     },
     textInput: {
+        fontSize:20,
+        fontWeight:'bold',
         width: "90%",
-        height: 35,
-        color:'#000'
+        height: "8%",
+        color: '#000',
     },
 
 })

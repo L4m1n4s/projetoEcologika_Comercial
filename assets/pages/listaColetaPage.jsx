@@ -65,7 +65,7 @@ export function ListaColeta({ navigation }) {
           </View>
 
           <TouchableOpacity style={styles.grid} onPress={() => abrirModal(index)}>
-            <Text style={styles.textGrid}>R${`${coleta.valorFinal}`}</Text>
+            <Text style={styles.textGrid}>{`${coleta.valorFinal}`}</Text>
           </TouchableOpacity>
 
 
