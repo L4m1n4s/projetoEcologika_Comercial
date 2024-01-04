@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   gridValor: {
     borderWidth: 3,
-    width: '20%'
+    width: '16%'
   },
   gridHolder: {
     flexDirection: 'row',
